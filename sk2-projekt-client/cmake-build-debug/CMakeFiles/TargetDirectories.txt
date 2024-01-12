@@ -1,0 +1,3 @@
+/Users/Katarzyna/CLionProjects/sk2-projekt-client/cmake-build-debug/CMakeFiles/sk2_projekt_client.dir
+/Users/Katarzyna/CLionProjects/sk2-projekt-client/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/Katarzyna/CLionProjects/sk2-projekt-client/cmake-build-debug/CMakeFiles/rebuild_cache.dir
