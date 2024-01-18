@@ -62,6 +62,11 @@ nlohmann::json publishRequest(std::string channel, std::string message){
     request["message"] = message;
     return request;
 }
+nlohmann::json channelsRequest(){
+    nlohmann::json request;
+    request["requestType"] = 6;
+    return request;
+}
 
 void sendRequest(int fd, nlohmann::json jsonRequest){
     std::string stringRequest;
@@ -169,6 +174,9 @@ int main(int argc, char** argv) {
         }
         if(requestType == "publish"){
         request = publishRequest(channelName, message);
+        }
+        if(requestType == "channels"){
+            request = channelsRequest();
         }
         if(requestType == "listen"){
             while(true){

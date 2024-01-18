@@ -35,6 +35,7 @@ public:
     void handleSubscribeChannel(std::string channel, int clientFd);
     void handleUnsubscribeChannel(std::string channel, int clientFd);
     void handlePublish(std::string channel, std::string message, int clientFd);
+    void handleChannels(int clientFd);
     void sendToSocket(int fd, const std::string& message);
     void onInput(int fd);
     void onDisconnect(int fd);

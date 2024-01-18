@@ -10,8 +10,11 @@
 #include <algorithm>
 #include <iterator>
 #include <string>
+#include <vector>
+#include <numeric>
 #include "json.hpp"
 #include "InvalidRequest.h"
+
 
 const int one = 1;
 int nextChannelId = 0;
@@ -192,6 +195,16 @@ void Server::handlePublish(std::string channel, std::string message, int clientF
     }
 }
 
+void Server::handleChannels(int clientFd){
+    std::string channelList = std::accumulate(channels.begin(), channels.end(), std::string(""),
+                                         [](const std::string& acc, const Channel& channel) {
+                                             return acc + channel.name + " ";
+                                         }
+    );
+    print(channelList);
+    sendToSocket(clientFd, channelList);
+}
+
 void Server::sendToSocket(int fd, const std::string& message) {
     unsigned int messageSize = htonl(message.size());
     if (send(fd, &messageSize, sizeof(messageSize), 0) == -1) {
@@ -222,6 +235,9 @@ void Server::onInput(int fd) {
             break;
         case 5:
             handlePublish(request["channel"].get<std::string>(), request["message"].get<std::string>(), fd);
+            break;
+        case 6:
+            handleChannels(fd);
             break;
         default:
             print("Invalid request type");
