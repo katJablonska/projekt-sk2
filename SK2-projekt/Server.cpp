@@ -103,7 +103,7 @@ std::string Server::receiveFromSocket(int fd) {
 
     int messageBytes = recv(fd, buffer.data(), messageSize, MSG_WAITALL);
 
-    if (messageBytes != messageSize && messageBytes != 0) {
+    if (messageBytes != (int)messageSize && messageBytes != 0) {
         perror("Error (read)");
         exit(1);
     }

@@ -13,3 +13,4 @@ add_executable(SK2-projekt main.cpp
         Channel.cpp
         InvalidRequest.h
 )
+

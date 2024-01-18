@@ -11,8 +11,6 @@
 #include "json.hpp"
 
 #define MAX_BUFFER_SIZE 1024
-#define SERVER_IP "127.0.0.1"
-#define SERVER_PORT 8080
 
 template <typename T> void print(T obj) { std::cout << obj << std::endl; }
 
@@ -86,7 +84,7 @@ std::string receiveFromSocket(int fd) {
 
     int messageBytes = recv(fd, buffer.data(), messageSize, MSG_WAITALL);
 
-    if (messageBytes != messageSize && messageBytes != 0) {
+    if (messageBytes != (int)messageSize && messageBytes != 0) {
         perror("(read)");
         exit(1);
     }
@@ -99,7 +97,13 @@ std::string receiveFromSocket(int fd) {
     return buffer;
 }
 
-int main() {
+int main(int argc, char** argv) {
+    if (argc != 3) {
+        print("Invalid number of arguments: " + std::to_string(argc));
+    }
+    std::string ip = argv[1];
+    int port = std::atoi(argv[2]);
+
     int sock = socket(AF_INET, SOCK_STREAM, 0);
     if (sock == -1) {
         perror("Socket creation error");
@@ -107,9 +111,9 @@ int main() {
     }
 
     struct sockaddr_in server_addr {
-            .sin_family = AF_INET, .sin_port = htons(SERVER_PORT),
+            .sin_family = AF_INET, .sin_port = htons(port),
     };
-    server_addr.sin_addr.s_addr = inet_addr(SERVER_IP);
+    server_addr.sin_addr.s_addr = inet_addr(ip.c_str());
 
     char buffer[MAX_BUFFER_SIZE];
 

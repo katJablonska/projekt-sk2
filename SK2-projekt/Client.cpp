@@ -1,5 +1,5 @@
 #include "Client.h"
-#include "server.h"
+#include "Server.h"
 
 Client::Client(int fd) : fd(fd) {}
 
